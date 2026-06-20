@@ -21,6 +21,11 @@ body{
     background-size:60px 60px, 80px 80px, auto;
     overflow-x:hidden;
     padding:24px 0 30px;
+    transition:filter 0.2s ease;
+}
+
+body.flash{
+    filter:brightness(1.25) saturate(1.35);
 }
 
 #bloqueo{
@@ -241,6 +246,86 @@ h3{
     margin:0;
 }
 
+.answer-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    min-height:58px;
+    padding:16px 18px;
+    border:1px solid rgba(255,77,109,0.20);
+    border-radius:18px;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,244,248,0.96));
+    color:#8a1538;
+    box-shadow:
+        0 10px 22px rgba(255,77,109,0.10),
+        inset 0 1px 0 rgba(255,255,255,0.95);
+    text-align:center;
+    font-size:16px;
+    letter-spacing:0.2px;
+    position:relative;
+    overflow:hidden;
+    transform:translateY(0);
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease;
+    isolation:isolate;
+}
+
+.answer-btn::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform:translateX(-130%);
+    transition:transform 0.6s ease;
+    z-index:-1;
+}
+
+.answer-btn::after{
+    display:none;
+}
+
+.answer-btn:hover{
+    transform:translateY(-3px) scale(1.015);
+    border-color:rgba(255,77,109,0.40);
+    box-shadow:
+        0 14px 28px rgba(255,77,109,0.16),
+        inset 0 1px 0 rgba(255,255,255,1);
+    background:
+        linear-gradient(135deg, #ffffff, #ffeef3);
+}
+
+.answer-btn:hover::before{
+    transform:translateX(130%);
+}
+
+.answer-btn:active{
+    transform:translateY(-1px) scale(0.995);
+}
+
+.answer-btn:focus-visible{
+    outline:none;
+    box-shadow:
+        0 0 0 4px rgba(255,77,109,0.18),
+        0 14px 28px rgba(255,77,109,0.16);
+}
+
+.answer-btn:nth-child(1){
+    border-left:6px solid #ff4d6d;
+}
+
+.answer-btn:nth-child(2){
+    border-left:6px solid #ff8fb1;
+}
+
+.answer-btn:nth-child(3){
+    border-left:6px solid #ffb3c7;
+}
+
 .question-img{
     width:100%;
     max-width:280px;
@@ -299,54 +384,72 @@ h3{
     margin:0;
 }
 
-.final-top{
-    width:100%;
-    max-width:760px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:16px;
-    margin-bottom:18px;
+.final-subtitulo{
+    margin:10px 0 0;
+    font-weight:bold;
+    opacity:0.92;
+    letter-spacing:0.4px;
 }
 
 .final-frase{
-    width:100%;
-    background:rgba(255,255,255,0.18);
-    border:1px solid rgba(255,255,255,0.28);
-    border-radius:18px;
-    padding:16px 18px;
-    box-shadow:0 12px 24px rgba(0,0,0,0.10);
+    width:min(780px, 96%);
+    margin:18px auto 18px;
+    padding:20px 20px 18px;
+    border-radius:24px;
+    position:relative;
+    background:linear-gradient(180deg, rgba(255,255,255,0.24), rgba(255,255,255,0.10));
+    border:1px solid rgba(255,255,255,0.35);
+    box-shadow:0 16px 34px rgba(0,0,0,0.14);
+    backdrop-filter:blur(4px);
 }
 
-.final-frase h3{
-    color:white;
-    margin:0 0 10px 0;
-    font-size:19px;
+.final-frase::before,
+.final-frase::after{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border-radius:20px;
+    border:1px dashed rgba(255,255,255,0.35);
+    pointer-events:none;
+}
+
+.final-adorno{
+    font-size:20px;
+    letter-spacing:3px;
+    text-shadow:0 0 12px rgba(255,255,255,0.55);
+    margin:0 0 10px;
 }
 
 .final-frase p{
     margin:0;
+    font-size:clamp(18px, 2.2vw, 26px);
     line-height:1.55;
-    font-weight:bold;
-    font-size:16px;
+    font-weight:800;
+    color:#fff;
+    text-shadow:0 2px 10px rgba(125, 0, 34, 0.38);
 }
 
 .final-imagen{
-    width:min(320px, 86vw);
+    width:min(300px, 90vw);
     border-radius:22px;
+    margin:0 auto 18px;
+    display:block;
     border:4px solid rgba(255,255,255,0.75);
     box-shadow:0 16px 35px rgba(0,0,0,0.18);
 }
 
 .pregunta-final{
-    font-size:36px;
-    margin:0 0 24px;
+    font-size:clamp(20px, 4vw, 30px);
+    line-height:1.15;
+    text-shadow:0 0 16px rgba(255,255,255,0.52);
     animation:latidoPregunta 1.5s infinite;
+    margin-top:4px !important;
+    margin-bottom:24px;
 }
 
 @keyframes latidoPregunta{
     0%{ transform:scale(1); }
-    50%{ transform:scale(1.08); }
+    50%{ transform:scale(1.06); }
     100%{ transform:scale(1); }
 }
 
@@ -378,8 +481,8 @@ h3{
 
 #btnNo{
     position:absolute;
-    left:58%;
-    top:84px;
+    left:0;
+    top:0;
     transition:left 0.2s, top 0.2s, transform 0.1s;
 }
 
@@ -388,39 +491,68 @@ h3{
 }
 
 #transformacion{
-    position:absolute;
+    position:fixed;
     inset:0;
     pointer-events:none;
     display:none;
     justify-content:center;
     align-items:center;
-    z-index:15;
+    z-index:9999;
+    background:radial-gradient(circle, rgba(255,255,255,0.55), rgba(255,255,255,0) 65%);
 }
 
 #transformacion.animando .circulo{
-    animation:transformar 0.6s ease forwards;
+    animation:transformarLadybug 0.9s ease forwards;
 }
 
 .circulo{
-    width:50px;
-    height:50px;
+    width:130px;
+    height:130px;
     border-radius:50%;
-    background:radial-gradient(circle, #ff1e4d 30%, black 35%, #ff1e4d 40%);
+    position:relative;
     transform:scale(0);
     opacity:0;
+    background:
+        radial-gradient(circle at 50% 50%, #000 0 23px, transparent 24px),
+        radial-gradient(circle at 25% 25%, #000 0 15px, transparent 16px),
+        radial-gradient(circle at 75% 25%, #000 0 15px, transparent 16px),
+        radial-gradient(circle at 25% 80%, #000 0 15px, transparent 16px),
+        radial-gradient(circle at 75% 80%, #000 0 15px, transparent 16px),
+        #ff2a2a;
+    border:4px solid #8d0000;
+    box-shadow:
+        0 0 0 6px rgba(255,255,255,0.25),
+        0 0 20px rgba(255,0,0,0.55);
 }
 
-@keyframes transformar{
+.circulo::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:4px;
+    height:100%;
+    background:#000;
+    border-radius:2px;
+    opacity:0.9;
+}
+
+@keyframes transformarLadybug{
     0%{
         transform:scale(0) rotate(0deg);
+        opacity:0;
+    }
+    20%{
+        transform:scale(1) rotate(0deg);
         opacity:1;
     }
     50%{
-        transform:scale(6) rotate(180deg);
+        transform:scale(3.8) rotate(180deg);
         opacity:1;
     }
     100%{
-        transform:scale(10) rotate(360deg);
+        transform:scale(12) rotate(360deg);
         opacity:0;
     }
 }
@@ -555,18 +687,18 @@ h3{
     </div>
 
     <div class="final" id="final">
-        <div class="final-top">
-            <div class="final-frase">
-                <h3>La frase completa</h3>
-                <p id="fraseCompletaFinal">
-                    Tengo la certeza de haber hallado a la criatura más bella del mundo, no a través de los ojos, sino en el destello de un susurro que convirtió el miedo en un jardín que florece por su presencia 💖
-                </p>
-            </div>
-            <img class="final-imagen" src="imagenes/juntos1.jpg" alt="Imagen final">
+        <h1>💘 Solo quiero preguntarte algo más 💘</h1>
+
+        <div class="final-frase">
+            <div class="final-adorno">✦ 💖 ✦</div>
+            <p id="fraseCompletaFinal">
+                Tengo la certeza de haber hallado a la criatura más bella del mundo, no a través de los ojos, sino en el destello de un susurro que convirtió el miedo en un jardín que florece por su presencia 💖
+            </p>
+            <div class="final-adorno">✦ ✨ ✦</div>
         </div>
 
-        <h1>💘 Solo quiero preguntarte algo más 💘</h1>
-        <p>Has completado el corazón.</p>
+        <img class="final-imagen" src="imagenes/juntos1.jpg" alt="Imagen final">
+
         <h2 class="pregunta-final">¿Quieres estar junto a mí y ser muy felices juntos? 💖</h2>
 
         <div class="final-actions">
@@ -602,7 +734,7 @@ const preguntas = [
     {texto:"Para iniciar pregunta fácil, ¿cuál es mi color favorito?", imagen:"imagenes/rosa.jpg", opciones:["Rojo","Azul","Verde"], correcta:1},
     {texto:"Otra sobre mí jeje, ¿cuál es mi personaje favorito de la serie?", imagen:"imagenes/mlb.jpg", opciones:["Alya","Marinette","Adrien"], correcta:2},
     {texto:"Última de mí, ¿qué es lo que más me gusta de ti?", imagen:"imagenes/tu1.jpg", opciones:["Tu sonrisa","Tus ojos","Tu voz"], correcta:[0,1,2]},
-    {texto:"Ahora a ver tu memoria con fechas jajajaj, ¿qué día fue nuestro primer beso? Pista: fue el mismo día que esta foto", imagen:"imagenes/juntos1.jpg", opciones:["Cariño","Rabia","Frío"], correcta:0},
+    {texto:"Ahora a ver tu memoria con fechas jajajaj, ¿qué día fue nuestro primer beso? Pista: fue el mismo día que esta foto", imagen:"imagenes/juntos1.jpg", opciones:["16 diciembre","17 diciembre","18 diciembre"], correcta:0},
     {texto:"Palabra de amor?", imagen:"https://i.imgur.com/FT8QK8P.jpg", opciones:["Te quiero","Chao","Nada"], correcta:0},
     {texto:"Emoji amor?", imagen:"https://i.imgur.com/X1e5FQk.jpg", opciones:["❤️","😡","😴"], correcta:0},
     {texto:"Lugar romántico?", imagen:"https://i.imgur.com/1cX5z0n.jpg", opciones:["Playa","Oficina","Taller"], correcta:0},
@@ -629,16 +761,27 @@ const btnNo = document.getElementById("btnNo");
 const finalActions = document.querySelector(".final-actions");
 const fraseCompletaFinal = document.getElementById("fraseCompletaFinal");
 
+function colocarBtnNoInicial(){
+    const x = (finalActions.clientWidth - btnNo.offsetWidth) / 2;
+    const y = (finalActions.clientHeight - btnNo.offsetHeight) / 2 + 50;
+
+    btnNo.style.position = "absolute";
+    btnNo.style.left = `${Math.max(0, x)}px`;
+    btnNo.style.top = `${Math.max(0, y)}px`;
+}
+
 function animarTransformacion(){
     transformacion.style.display = "flex";
     transformacion.classList.remove("animando");
+    document.body.classList.add("flash");
     void transformacion.offsetWidth;
     transformacion.classList.add("animando");
 
     setTimeout(()=>{
         transformacion.style.display = "none";
         transformacion.classList.remove("animando");
-    }, 600);
+        document.body.classList.remove("flash");
+    }, 900);
 }
 
 function esCorrectaRespuesta(pregunta, indice){
@@ -655,6 +798,7 @@ function cargarPregunta(){
 
     p.opciones.forEach((op, i)=>{
         const btn = document.createElement("button");
+        btn.className = "answer-btn";
         btn.innerText = op;
         btn.onclick = ()=>verificar(i);
         opcionesEl.appendChild(btn);
@@ -693,6 +837,7 @@ function verificar(i){
         }else{
             setTimeout(()=>{
                 finalScreen.style.display = "flex";
+                requestAnimationFrame(colocarBtnNoInicial);
             }, 1400);
         }
 
@@ -705,12 +850,12 @@ function verificar(i){
 cargarPregunta();
 
 function moverNo(e){
-    const rect = btnNo.getBoundingClientRect();
     const mouseX = e.clientX || (e.touches && e.touches[0].clientX);
     const mouseY = e.clientY || (e.touches && e.touches[0].clientY);
 
     if(mouseX == null || mouseY == null) return;
 
+    const rect = btnNo.getBoundingClientRect();
     const centroX = rect.left + rect.width / 2;
     const centroY = rect.top + rect.height / 2;
 
@@ -719,34 +864,24 @@ function moverNo(e){
 
     const distancia = Math.sqrt(dx*dx + dy*dy);
 
-    if(distancia < 120 && distancia > 0.1){
-        let newX = btnNo.offsetLeft + (dx / distancia) * 80 * velocidad;
-        let newY = btnNo.offsetTop + (dy / distancia) * 80 * velocidad;
+    const umbral = 80;
+
+    if(distancia < umbral && distancia > 0.1){
+        const fuerza = 95;
+        let newX = btnNo.offsetLeft + (dx / distancia) * fuerza;
+        let newY = btnNo.offsetTop + (dy / distancia) * fuerza;
 
         newX = Math.max(0, Math.min(newX, finalActions.clientWidth - btnNo.offsetWidth));
         newY = Math.max(0, Math.min(newY, finalActions.clientHeight - btnNo.offsetHeight));
 
         btnNo.style.position = "absolute";
-        btnNo.style.left = newX + "px";
-        btnNo.style.top = newY + "px";
-
-        velocidad += 0.05;
+        btnNo.style.left = `${newX}px`;
+        btnNo.style.top = `${newY}px`;
     }
 }
 
-finalActions.addEventListener("mousemove", moverNo);
+finalActions.addEventListener("pointermove", moverNo);
 finalActions.addEventListener("touchmove", moverNo);
-btnNo.addEventListener("mouseover", moverNo);
-btnNo.addEventListener("click", moverNo);
-
-setInterval(()=>{
-    const x = Math.random() * (finalActions.clientWidth - btnNo.offsetWidth);
-    const y = Math.random() * (finalActions.clientHeight - btnNo.offsetHeight);
-
-    btnNo.style.left = x + "px";
-    btnNo.style.top = y + "px";
-}, 2000);
-
 const contPetalos = document.getElementById("petalos");
 
 function crearPetalo(){
