@@ -760,6 +760,8 @@ const finalScreen = document.getElementById("final");
 const btnNo = document.getElementById("btnNo");
 const finalActions = document.querySelector(".final-actions");
 const fraseCompletaFinal = document.getElementById("fraseCompletaFinal");
+const musicaFondo = document.getElementById("musicaFondo");
+    
 
 function colocarBtnNoInicial(){
     const x = (finalActions.clientWidth - btnNo.offsetWidth) / 2;
@@ -768,6 +770,22 @@ function colocarBtnNoInicial(){
     btnNo.style.position = "absolute";
     btnNo.style.left = `${Math.max(0, x)}px`;
     btnNo.style.top = `${Math.max(0, y)}px`;
+}
+let musicaIniciada = false;
+
+function iniciarMusica() {
+
+    if (musicaIniciada) return;
+
+    musicaIniciada = true;
+
+    musicaFondo.volume = 0.35;
+
+    musicaFondo.play().catch(error => {
+        console.log("No se pudo iniciar la música:", error);
+        musicaIniciada = false;
+    });
+
 }
 
 function animarTransformacion(){
@@ -905,6 +923,8 @@ function crearPetalo(){
 }
 
 setInterval(crearPetalo, 300);
+
+    document.addEventListener("click", iniciarMusica, { once: true });
 </script>
 <audio id="musicaFondo" autoplay loop>
     <source src="sonidos/sau.mp3">
